@@ -14,14 +14,28 @@ const ProductsSlice = createSlice({
                 to : "الرباط",
                 taxiNumber : "6230",
                 id : 1,
+                time: "12:00",
+                numberOfProducts: 1,
+
             },
             {
                 from : "الرباط",
                 to : "سلا",
                 taxiNumber : "562",
                 id : 2,
+                time: "12:00",
+                numberOfProducts: 1,
+
             },
-        
+            {
+                from : "الرباط",
+                to : "سلا",
+                taxiNumber : "562",
+                id : 3,
+                time: "12:00",
+                numberOfProducts: 1,
+                
+            }
 
         ]
     },

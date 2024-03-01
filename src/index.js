@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./screens/Home";
 import Products from "./screens/Products";
 import store from "./store";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import AddProduct from "./screens/AddProduct";
 import Orders from "./screens/Orders";
 import Settings from "./screens/Settings";
@@ -15,11 +15,13 @@ import { Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import getFonts from "./helpers/fonts";
+import AppModal from "./components/AppModal";
+import { openModal } from "./store/reducer/ui/ModalSlice";
+import AddIcon from "./components/NavigationButton/AddIcon";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
   const font = getFonts();
 
   const HomeIcon = ({ color, size, focused }) => {
@@ -37,9 +39,10 @@ export default function App() {
             style={{
               color: color,
               fontSize: 12,
+              fontFamily: "Cairo",
             }}
           >
-            Home
+            الرئيسية
           </Text>
 
           {/* Bottom line */}
@@ -68,9 +71,10 @@ export default function App() {
           style={{
             color: color,
             fontSize: 12,
+            fontFamily: "Cairo",
           }}
         >
-          Home
+          الرئيسية
         </Text>
       </View>
     );
@@ -91,9 +95,10 @@ export default function App() {
             style={{
               color: "#00CD5E",
               fontSize: 12,
+              fontFamily: "Cairo",
             }}
           >
-            List
+            القائمة
           </Text>
 
           {/* Bottom line */}
@@ -103,6 +108,7 @@ export default function App() {
               height: 3,
               backgroundColor: "#00CD5E",
               borderRadius: 2,
+              
             }}
           ></View>
         </View>
@@ -121,82 +127,12 @@ export default function App() {
         <Text
           style={{
             color: color,
-            fontSize: 12,
+            fontSize: 12, 
+            fontFamily: "Cairo",
           }}
         >
-          List
+          القائمة
         </Text>
-      </View>
-    );
-  };
-
-  const AddIcon = ({ color, size, focused }) => {
-    if (focused) {
-      return (
-        <View
-          style={{
-            backgroundColor: "#00CD5E",
-            height: 72,
-            width: 72,
-            borderRadius: 36,
-            alignItems: "center",
-            justifyContent: "center",
-            top: -36,
-          }}
-        >
-          {/* add icon */}
-          <View
-            style={{
-              width: 24,
-              height: 3,
-              backgroundColor: "#fff",
-              borderRadius: 2,
-              position: "absolute",
-            }}
-          ></View>
-          <View
-            style={{
-              width: 3,
-              height: 24,
-              backgroundColor: "#fff",
-              borderRadius: 2,
-              position: "absolute",
-            }}
-          ></View>
-        </View>
-      );
-    }
-    return (
-      <View
-        style={{
-          backgroundColor: "#00CD5E",
-          height: 72,
-          width: 72,
-          borderRadius: 36,
-          alignItems: "center",
-          justifyContent: "center",
-          top: -36,
-        }}
-      >
-        {/* add icon */}
-        <View
-          style={{
-            width: 24,
-            height: 3,
-            backgroundColor: "#fff",
-            borderRadius: 2,
-            position: "absolute",
-          }}
-        ></View>
-        <View
-          style={{
-            width: 3,
-            height: 24,
-            backgroundColor: "#fff",
-            borderRadius: 2,
-            position: "absolute",
-          }}
-        ></View>
       </View>
     );
   };
@@ -218,7 +154,7 @@ export default function App() {
               fontSize: 12,
             }}
           >
-            Tracking
+            التتبع
           </Text>
 
           {/* Bottom line */}
@@ -228,6 +164,7 @@ export default function App() {
               height: 3,
               backgroundColor: color,
               borderRadius: 2,
+              fontFamily: "Cairo",
             }}
           ></View>
         </View>
@@ -247,9 +184,10 @@ export default function App() {
           style={{
             color: color,
             fontSize: 12,
+            fontFamily: "Cairo",
           }}
         >
-          Tracking
+          التتبع
         </Text>
       </View>
     );
@@ -270,9 +208,10 @@ export default function App() {
             style={{
               color: color,
               fontSize: 12,
+              fontFamily: "Cairo",
             }}
           >
-            Settings
+            الإعدادات
           </Text>
 
           {/* Bottom line */}
@@ -301,30 +240,34 @@ export default function App() {
           style={{
             color: color,
             fontSize: 12,
+            fontFamily: "Cairo",
           }}
         >
-          Settings
+          الإعدادات
         </Text>
       </View>
     );
   };
 
   if (!font) {
-    return <AppLoading />;
+    return <Text> loading .. </Text>;
   }
 
   return (
     <Provider store={store}>
+      <AppModal />
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
             tabBarStyle: {
               height: 64,
+              zIndex: 1000,
             },
             tabBarLabelStyle: {
               display: "none",
             },
           })}
+          initialRouteName="Products"
         >
           <Tab.Screen
             name="Home"
@@ -342,11 +285,39 @@ export default function App() {
               tabBarIcon: ({ color, size, focused }) => (
                 <ListIcon color={color} size={size} focused={focused} />
               ),
+              headerLeft: () => (
+                <AntDesign
+                  name="search1"
+                  size={24}
+                  color="black"
+                  style={{ marginLeft: 16 }}
+                />
+              ),
+              headerTitle: "",
+              headerRight: () => (
+                <Text
+                  style={{
+                    marginRight: 16,
+                    fontSize: 24,
+                    fontFamily: "Cairo",
+                  }}
+                >
+                  القائمة
+                </Text>
+              ),
+
             }}
+
           />
           <Tab.Screen
-            name="AddProduct"
-            component={AddProduct}
+            name="AddIcon"
+            component={AddIcon}
+            listeners={({ navigation }) => ({
+              tabPress: (event) => {
+                event.preventDefault();
+                store.dispatch(openModal({ componentName: "AddTaxi" }));
+              },
+            })}
             options={{
               tabBarIcon: ({ focused }) => <AddIcon focused={focused} />,
             }}
