@@ -21,7 +21,7 @@ import AddIcon from "./components/NavigationButton/AddIcon";
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function Main() {
   const font = getFonts();
 
   const HomeIcon = ({ color, size, focused }) => {

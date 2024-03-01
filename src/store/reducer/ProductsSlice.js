@@ -27,16 +27,6 @@ const ProductsSlice = createSlice({
                 numberOfProducts: 1,
 
             },
-            {
-                from : "الرباط",
-                to : "سلا",
-                taxiNumber : "562",
-                id : 3,
-                time: "12:00",
-                numberOfProducts: 1,
-                
-            }
-
         ]
     },
 

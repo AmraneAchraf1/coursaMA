@@ -63,17 +63,22 @@ const AddTaxi = () => {
         <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>
       )}
        
+       
         <TextInput
           style={styles.input}
           placeholder="الوجة"
           onChangeText={(text) => setTo(text)}
           value={to}
+          autoFocus
+          aria-label="الوجة"
+
         />
         <TextInput
           style={styles.input}
           placeholder="رقم الطاكسي"
           onChangeText={(text) => setTaxiNumber(text)}
           value={taxiNumber}
+          keyboardType="numeric"
         />
         <TouchableOpacity style={styles.button}
         onPress={handleAddProduct}
