@@ -13,7 +13,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
 import getFonts from "./helpers/fonts";
 import AppModal from "./components/AppModal";
 import { openModal } from "./store/reducer/ui/ModalSlice";
@@ -250,7 +249,7 @@ export default function Main() {
   };
 
   if (!font) {
-    return <Text> loading .. </Text>;
+    return <Text>Loading ..</Text>;
   }
 
   return (
